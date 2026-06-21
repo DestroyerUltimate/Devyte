@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // 3. Validation Blueprints
+    function isValidProtocol(data) {
+      return data.title is string && data.title.size() <= 100 &&
+             data.category is string && data.category.size() <= 100 &&
+             data.tag is string && data.tag.size() <= 50 &&
+             data.description is string && data.description.size() <= 1000;
+    }
+
+    function isValidOperator(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.codename is string && data.codename.size() <= 100 &&
+             data.role is string && data.role.size() <= 100 &&
+             data.image is string && data.image.size() <= 1000;
+    }
+
+    function isValidCouncilMember(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.title is string && data.title.size() <= 100 &&
+             data.image is string && data.image.size() <= 1000 &&
+             data.description is string && data.description.size() <= 1000;
+    }
+
+    function isValidRegistration(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.email is string && data.email.size() <= 100 &&
+             data.school is string && data.school.size() <= 200 &&
+             data.sector is string && data.sector.size() <= 50 &&
+             data.timestamp is string; 
+    }
+
+    // 4. Collection Rules
+    match /protocols/{protocolId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /operators/{operatorId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /council/{memberId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /registrations/{regId} {
+      allow read: if isAdmin();
+      allow create: if isValidRegistration(incoming());
+      allow update, delete: if isAdmin();
+    }
+
+    match /admins/{userId} {
+      allow read: if isSignedIn();
+      allow write: if request.auth.token.email == "yash626.singh@gmail.com";
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

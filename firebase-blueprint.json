@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "Protocol": {
+      "title": "Protocol",
+      "description": "System protocols for events",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "tag": { "type": "string" },
+        "description": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "timing": { "type": "string" },
+        "participation": { "type": "string" },
+        "rules": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["title", "category", "tag", "description"]
+    },
+    "Operator": {
+      "title": "Operator",
+      "description": "Team members/Operators",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "codename": { "type": "string" },
+        "division": { "type": "string" },
+        "metadata": { "type": "string" },
+        "role": { "type": "string" },
+        "bio": { "type": "string" },
+        "specialty": { "type": "string" },
+        "image": { "type": "string" },
+        "column": { "type": "string", "enum": ["left", "right"] }
+      },
+      "required": ["name", "codename", "role", "image"]
+    },
+    "CouncilMember": {
+      "title": "Council Member",
+      "description": "Judges/Council members",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "image": { "type": "string" },
+        "description": { "type": "string" },
+        "achievements": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["name", "title", "image", "description"]
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "User registrations for the event",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "school": { "type": "string" },
+        "sector": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "school", "sector", "timestamp"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Collection of authorized admin UIDs",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" }
+      },
+      "required": ["email"]
+    },
+    "Setting": {
+      "title": "Setting",
+      "description": "Global application setting",
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  "firestore": {
+    "protocols": {
+      "schema": "Protocol",
+      "description": "Collection of event protocols"
+    },
+    "operators": {
+      "schema": "Operator",
+      "description": "Collection of team members"
+    },
+    "council": {
+      "schema": "CouncilMember",
+      "description": "Collection of council members (judges)"
+    },
+    "registrations": {
+      "schema": "Registration",
+      "description": "Collection of user registrations"
+    },
+    "admins": {
+      "schema": "Admin",
+      "description": "Collection of authorized admin UIDs"
+    },
+    "settings": {
+      "schema": "Setting",
+      "description": "Global application settings"
+    }
+  }
+}

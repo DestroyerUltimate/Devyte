@@ -1,0 +1,8 @@
+{
+  "name": "DEVYTE",
+  "description": "Official Interschool Fest Website organized by DEV X Club. A cinematic, futuristic, and premium digital experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
