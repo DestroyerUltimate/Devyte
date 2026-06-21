@@ -1,9 +1,8 @@
 {
-  "version": 2,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "https://devyte-692540067013.asia-southeast1.run.app/$1"
+      "source": "/(.*)",
+      "destination": "https://devyte-692540067013.asia-southeast1.run.app/$1"
     }
   ]
 }
