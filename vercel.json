@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "https://devyte-692540067013.asia-southeast1.run.app/:path*"
+    }
+  ]
+}
